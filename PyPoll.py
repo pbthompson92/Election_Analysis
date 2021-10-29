@@ -58,42 +58,61 @@ with open(file_to_load) as election_data:
         # Add vote every time cadidate name appears
         candidate_votes[candidate_name] += 1
 
-    # Calculate % of votes per candidate
-    for candidate_name in candidate_votes: 
+    with open(file_to_save, "w") as txt_file:
 
-        # Retrieve total votes per candidate 
-        votes = candidate_votes[candidate_name]
+        election_results = (
+            f"\nElection Results\n"
+            f"--------------------\n"
+            f"Total Votes:{total_votes:,}\n"
+            f"--------------------\n")
 
-        # calculate vote percentage
-        vote_percentage = float(votes)/float(total_votes) * 100
+        print(election_results, end = "")
 
-    #  To do: print out each candidate's name, vote count, and percentage of votes to the terminal.
-        # print candidate name and percentage of votes
-        print(f"{candidate_name}: {vote_percentage:.1f}% ({votes:,})\n")
+        #Save final vote count to text file
+        txt_file.write(election_results)
 
-        # Determine if the count of votes is the largest and therefore the winner
-        if (votes > winning_count) and (vote_percentage > winning_percentage):
-            winning_count = votes
-            winning_percentage = vote_percentage
-            winning_candidate = candidate_name
+        # Calculate % of votes per candidate
+        for candidate_name in candidate_votes: 
 
-    #  To do: print out the winning candidate, vote count and percentage to the terminal 
-    winning_candidate_summary = (
-        f"---------------------------\n"
-        f"Winner: {winning_candidate}\n"
-        f"Winning Vote Count: {winning_count:,}\n"
-        f"Winning Percentage: {winning_percentage:.1f}\n"
-        f"---------------------------\n")
+            # Retrieve total votes per candidate 
+            votes = candidate_votes[candidate_name]
 
-    print(winning_candidate_summary)
+            # calculate vote percentage
+            vote_percentage = float(votes)/float(total_votes) * 100
+
+        #  To do: print out each candidate's name, vote count, and percentage of votes to the terminal.
+            # print candidate name and percentage of votes
+            # print(total_votes)
+            # print(f"{candidate_name}: {vote_percentage:.1f}% ({votes:,})\n")
+            candidate_results = (f"{candidate_name}: {vote_percentage:.1f}% ({votes:,})\n")
+
+            print(candidate_results)
+            txt_file.write(candidate_results)
+
+            # Determine if the count of votes is the largest and therefore the winner
+            if (votes > winning_count) and (vote_percentage > winning_percentage):
+                winning_count = votes
+                winning_percentage = vote_percentage
+                winning_candidate = candidate_name
+
+        #  To do: print out the winning candidate, vote count and percentage to the terminal 
+        winning_candidate_summary = (
+            f"---------------------------\n"
+            f"Winner: {winning_candidate}\n"
+            f"Winning Vote Count: {winning_count:,}\n"
+            f"Winning Percentage: {winning_percentage:.1f}\n"
+            f"---------------------------\n")
+
+        print(winning_candidate_summary)
+        txt_file.write(winning_candidate_summary)
+            
         
-    
-# Print the total votes
-# print(total_votes)
-# print(candidate_votes)
+    # Print the total votes
 
-#1. The total number of votes cast
-#2. A complete list of candidates who recieved votes
-#3. The percentage of votes each candidate won
-#4. The total number of votes each candidate won
-#5. The winner of the election based on popular vote
+    # print(candidate_votes)
+
+    #1. The total number of votes cast
+    #2. A complete list of candidates who recieved votes
+    #3. The percentage of votes each candidate won
+    #4. The total number of votes each candidate won
+    #5. The winner of the election based on popular vote
